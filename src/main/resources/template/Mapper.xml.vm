@@ -3,7 +3,7 @@
 <mapper namespace="com.yuantu.admin.${moduleName}.mapper.${className}Mapper">
 
   <!-- 基础返回结果集 -->
-  <resultMap id="${classname}Map" type="com.yuantu.admin.${moduleName}.${className}Entity">
+  <resultMap id="${classname}Map" type="com.yuantu.admin.${moduleName}.entity.${className}Entity">
     #foreach($column in $columns)
     #if($column.lowerAttrName==$pk.lowerAttrName)
     <id property="${pk.lowerAttrName}" jdbcType="${pk.dataType}" column="${pk.columnName}"/>
@@ -58,8 +58,12 @@
     </where>
   </sql>
 
+  <sql id="byPage">
+      LIMIT #{start},#{offset}
+  </sql>
+
   <!-- 基础带条件查询 -->
-  <select id="selectByCondition" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.${className}VO">
+  <select id="selectByCondition" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO">
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
     <include refid="whereCondition" />
@@ -93,7 +97,7 @@
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
     <include refid="whereCondition" />
-    LIMIT #{start},#{offset}
+    <include refid="byPage"/>
   </select>
 
   <!-- 插入 -->

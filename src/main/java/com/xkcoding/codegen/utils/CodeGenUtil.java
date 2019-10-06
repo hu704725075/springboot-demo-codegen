@@ -226,9 +226,9 @@ public class CodeGenUtil {
      */
     private String getFileName(String template, String className, String packageName, String moduleName) {
         // 包路径
-        String packagePath = GenConstants.SIGNATURE + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+        String packagePath = GenConstants.SIGNATURE + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + "com" + File.separator + "yuantu" + File.separator;
         // 资源路径
-        String resourcePath = GenConstants.SIGNATURE + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+        String resourcePath = GenConstants.SIGNATURE + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "adminSqlMap" + File.separator;
         // api路径
         String apiPath = GenConstants.SIGNATURE + File.separator + "api" + File.separator;
 
@@ -237,7 +237,11 @@ public class CodeGenUtil {
         }
 
         if (template.contains(ENTITY_JAVA_VM)) {
-            return packagePath + "entity" + File.separator + className + ".java";
+            return packagePath + "entity" + File.separator + className + "Entity.java";
+        }
+
+        if (template.contains(VO_JAVA_VM)) {
+            return packagePath + "vo" + File.separator + className + "VO.java";
         }
 
         if (template.contains(MAPPER_JAVA_VM)) {

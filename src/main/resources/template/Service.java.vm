@@ -1,6 +1,5 @@
 package com.yuantu.admin.${moduleName}.service;
 
-import com.yuantu.admin.${moduleName}.${className}Mapper;
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.query.${className}Query;
@@ -30,6 +29,13 @@ public interface ${className}Service{
   public Page<${className}Entity> queryByPage(${className}Query ${classname}Query);
 
   /**
+  * 根据条件查询
+  * @param VO
+  * @return
+  */
+  public List<${className}Entity> queryByCondition(${className}VO ${classname}VO);
+
+  /**
   * 通过id查询
   * @param id
   * @return
@@ -41,7 +47,7 @@ public interface ${className}Service{
   * @param VO
   * @return
   */
-  public ${className}Entity save(${className}VO ${classname}VO);
+  public Boolean save(${className}VO ${classname}VO);
 
   /**
   * 修改

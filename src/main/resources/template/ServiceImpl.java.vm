@@ -1,6 +1,6 @@
 package com.yuantu.admin.${moduleName}.service.impl;
 
-import com.yuantu.admin.${moduleName}.${className}Mapper;
+import com.yuantu.admin.${moduleName}.mapper.${className}Mapper;
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.query.${className}Query;
@@ -51,6 +51,22 @@ public class ${className}ServiceImpl implements ${className}Service {
     }
 
     /**
+    * 根据条件查询
+    * @param VO
+    * @return
+    */
+    public List<${className}Entity> queryByCondition(${className}VO ${classname}VO){
+        Integer totalCount = ${classname}Mapper.count(${classname}VO);
+        List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
+        if(totalCount > 0){
+            lists = ${classname}Mapper.selectByCondition(${classname}VO);
+            //视情况 看是否需要转为DTO 本身框架自带 过滤null得 k-v  所以不用担心将数据结构直接暴漏
+            //List<${className}DTO> reslists = transForm(lists);
+        }
+        return lists;
+    }
+
+    /**
     * 通过id查询
     * @param id
     * @return
@@ -65,8 +81,6 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @return
     */
     public Boolean save(${className}VO ${classname}VO){
-        //复杂得校验规则  需要重新写checkParam
-        //checkParam(${classname}VO);
         ${className}Entity ${classname}Entity = transform(${classname}VO);
         Integer res = 0;
         try {
@@ -116,8 +130,9 @@ public class ${className}ServiceImpl implements ${className}Service {
     * vo 转换为 entity
     * @param VO
     */
-    private void transform(${className}VO ${classname}VO){
+    private ${className}Entity transform(${className}VO ${classname}VO){
         ${className}Entity ${classname}Entity = new ${className}Entity();
         BeanUtils.copyProperties(${classname}Entity,${classname}VO);
+        return ${classname}Entity;
     }
 }

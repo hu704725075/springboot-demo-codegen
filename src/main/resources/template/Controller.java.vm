@@ -52,11 +52,29 @@ public class ${className}Controller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "${classname}", value = "查询条件", required = true)
     })
-    public Result list${className}(@Validated ${className}Query ${classname}Query, BindingResult bindvo) {
+    public Result list${className}(@Validated ${className}Query ${classname}Query) {
       Result result = Result.createFailResult();
       return new Result<>(${classname}Service.queryByPage(${classname}Query);
     }
 
+
+    /**
+     * 新增${comments}
+     * @param ${classname} ${comments}
+     * @return Result
+     */
+    @PostMapping("/add")
+    @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
+    @ApiImplicitParams({
+        #foreach ($column in $columns)
+            #if($column.lowerAttrName != $pk.lowerAttrName)
+                    @ApiImplicitParam(name = "$column.lowerAttrName", value = "$column.comments", required = true)#if($foreach.hasNext),#end
+            #end
+        #end
+    })
+    public Result save${className}(@RequestBody @Validated({Insert.class}) ${className}VO ${classname}VO){
+        return new Result<>(${classname}Service.save(${classname}VO));
+    }
 
     /**
      * 通过id查询${comments}
@@ -73,20 +91,6 @@ public class ${className}Controller {
     }
 
     /**
-     * 新增${comments}
-     * @param ${classname} ${comments}
-     * @return R
-     */
-    @PostMapping("/add")
-    @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
-    @ApiImplicitParams({
-      @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
-    })
-    public Result save${className}(@RequestBody @Validated ${className} ${classname}VO,BindingResult bindvo){
-      return new Result<>(${classname}Service.save(${classname}VO));
-    }
-
-    /**
      * 修改${comments}
      * @param ${pk.lowerAttrName} id
      * @param ${classname} ${comments}
@@ -97,7 +101,7 @@ public class ${className}Controller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
     })
-    public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO,BindingResult bindvo){
+    public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO){
       return new Result<>(${classname}Service.updateById(${classname}));
     }
 

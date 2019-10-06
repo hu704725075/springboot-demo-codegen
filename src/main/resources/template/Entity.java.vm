@@ -20,7 +20,8 @@ import java.time.Date;
  * @version: V1.0
  * @modified: ${author}
  */
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Builder
