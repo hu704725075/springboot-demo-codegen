@@ -112,7 +112,7 @@ public class ${className}Controller {
     })
     public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO){
         Result result = Result.createFailResult();
-        result.setData(${classname}Service.updateById(${classname}));
+        result.setData(${classname}Service.updateById(${classname}VO));
         return result;
     }
 
