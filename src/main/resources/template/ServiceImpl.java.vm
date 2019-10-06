@@ -44,7 +44,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @return
     */
     public Page<${className}Entity> queryByPage(${className}Query ${classname}Query){
-        ${className}Entity ${classname}Entity = transformVO(${classname}Query);
+        ${className}Entity ${classname}Entity = transformQuery(${classname}Query);
         Integer totalCount = ${classname}Mapper.count(${classname}Entity);
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
@@ -63,7 +63,7 @@ public class ${className}ServiceImpl implements ${className}Service {
         Integer totalCount = ${classname}Mapper.count(${classname}Entity);
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
-            lists = ${classname}Mapper.selectByCondition(${className}Entity);
+            lists = ${classname}Mapper.selectByCondition(${classname}Entity);
         }
         return lists;
     }

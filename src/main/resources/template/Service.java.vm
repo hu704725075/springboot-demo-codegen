@@ -23,14 +23,14 @@ import java.util.List;
 public interface ${className}Service{
   /**
   * 分页查询
-  * @param Query
+  * @param ${classname}Query
   * @return
   */
   public Page<${className}Entity> queryByPage(${className}Query ${classname}Query);
 
   /**
   * 根据条件查询
-  * @param VO
+  * @param ${classname}VO
   * @return
   */
   public List<${className}Entity> queryByCondition(${className}VO ${classname}VO);
@@ -44,14 +44,14 @@ public interface ${className}Service{
 
   /**
   * 新增
-  * @param VO
+  * @param ${classname}VO
   * @return
   */
   public Boolean save(${className}VO ${classname}VO);
 
   /**
   * 修改
-  * @param VO
+  * @param ${classname}VO
   * @return
   */
   public Boolean updateById(${className}VO ${classname}VO);

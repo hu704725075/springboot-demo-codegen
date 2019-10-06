@@ -1,6 +1,7 @@
 package com.yuantu.admin.${moduleName}.vo;
 
 import io.swagger.annotations.ApiModel;
+import com.yuantu.admin.base.group.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
   #if(${hasBigDecimal})
@@ -10,6 +11,7 @@ import com.yuantu.admin.base.query.Page;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
+import org.hibernate.validator.constraints.*;
 
 
 /**
@@ -32,7 +34,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel()
-public class ${className}VO extends Page implements Serializable {
+public class ${className}Query extends Page implements Serializable {
     private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)
@@ -45,7 +47,7 @@ public class ${className}VO extends Page implements Serializable {
       #if($column.attrType == 'String')
       @NotEmpty(message = "$column.comments不能为空字符",groups = {InsertInterface.class})
       #end
-      @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = ture)
+      @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = true)
       private $column.attrType $column.lowerAttrName;
     #end
 

@@ -9,6 +9,7 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
+import com.yuantu.admin.base.group.*;
 
 /**
  * <p>
@@ -43,7 +44,7 @@ public class ${className}VO implements Serializable {
       #if($column.attrType == 'String')
       @NotEmpty(message = "$column.comments不能为空字符",groups = {InsertInterface.class})
       #end
-      @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = ture)
+      @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = true)
       private $column.attrType $column.lowerAttrName;
     #end
 

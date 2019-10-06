@@ -2,14 +2,15 @@ package com.yuantu.newcontroller;
 
 
 import com.yuantu.common.Result;
-import com.yuantu.common.ResultCodeEnums;
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
 import com.yuantu.admin.${moduleName}.vo.${className}Query;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
-import com.yuantu.admin.${moduleName}.service.${className}Service;
-import lombok.AllArgsConstructor;
+import com.yuantu.admin.${moduleName}.${className}Service;
+import com.yuantu.admin.base.query.Page;
+import com.yuantu.admin.base.group.InsertInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,10 +47,9 @@ public class ${className}Controller {
 
 
     /**
-     * 分页查询${comments}
-     * @param page 分页对象
-     * @param ${classname} ${comments}
-     * @return R
+     * 分页查询 ${comments}
+     * @param ${classname}Query
+     * @return Result
      */
     @GetMapping("/queryByPage")
     @ApiOperation(value = "分页查询${comments}", notes = "分页查询${comments}")
@@ -66,7 +66,7 @@ public class ${className}Controller {
 
     /**
      * 新增${comments}
-     * @param ${classname} ${comments}
+     * @param ${classname}VO ${comments}
      * @return Result
      */
     @PostMapping("/add")
@@ -87,7 +87,7 @@ public class ${className}Controller {
     /**
      * 通过id查询${comments}
      * @param ${pk.lowerAttrName} id
-     * @return R
+     * @return Result
      */
     @GetMapping("/{${pk.lowerAttrName}}")
     @ApiOperation(value = "通过id查询${comments}", notes = "通过id查询${comments}")
@@ -102,9 +102,8 @@ public class ${className}Controller {
 
     /**
      * 修改${comments}
-     * @param ${pk.lowerAttrName} id
-     * @param ${classname} ${comments}
-     * @return R
+     * @param ${classname}VO ${comments}
+     * @return Result
      */
     @PutMapping("/{${pk.lowerAttrName}}")
     @ApiOperation(value = "修改${comments}", notes = "修改${comments}")
@@ -120,7 +119,7 @@ public class ${className}Controller {
     /**
      * 通过id删除${comments}
      * @param ${pk.lowerAttrName} id
-     * @return R
+     * @return Result
      */
     @DeleteMapping("/{${pk.lowerAttrName}}")
     @ApiOperation(value = "删除${comments}", notes = "删除${comments}")
