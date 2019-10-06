@@ -50,12 +50,14 @@ public class CodeGenUtil {
     private final String CONTROLLER_JAVA_VM = "Controller.java.vm";
     private final String MAPPER_XML_VM = "Mapper.xml.vm";
     private final String VO_JAVA_VM = "VO.java.vm";
+    private final String QUERY_JAVA_VM = "Query.java.vm";
     private final String API_JS_VM = "api.js.vm";
 
     private List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
         templates.add("template/Entity.java.vm");
         templates.add("template/VO.java.vm");
+        templates.add("template/Query.java.vm");
         templates.add("template/Mapper.java.vm");
         templates.add("template/Mapper.xml.vm");
         templates.add("template/Service.java.vm");
@@ -242,6 +244,9 @@ public class CodeGenUtil {
 
         if (template.contains(VO_JAVA_VM)) {
             return packagePath + "vo" + File.separator + className + "VO.java";
+        }
+        if (template.contains(QUERY_JAVA_VM)) {
+            return packagePath + "vo" + File.separator + className + "Query.java";
         }
 
         if (template.contains(MAPPER_JAVA_VM)) {

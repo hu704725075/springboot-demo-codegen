@@ -1,11 +1,15 @@
 package com.yuantu.admin.${moduleName}.service.impl;
 
+import com.yuantu.admin.${moduleName}.${className}Service;
 import com.yuantu.admin.${moduleName}.mapper.${className}Mapper;
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
-import com.yuantu.admin.${moduleName}.query.${className}Query;
-import com.yuantu.admin.base.Page;
+import com.yuantu.admin.${moduleName}.vo.${className}Query;
+import com.yuantu.admin.base.query.Page;
+import com.yuantu.admin.base.exception.*;
 import org.springframework.beans.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,46 +33,44 @@ import javax.annotation.Resource;
 @Service
 public class ${className}ServiceImpl implements ${className}Service {
 
-    private static final Logger logger = LoggerFactory.getLogger(this.class);
+    private static final Logger logger = LoggerFactory.getLogger(${className}ServiceImpl.class);
 
     @Resource
     private ${className}Mapper ${classname}Mapper;
 
     /**
     * 分页查询
-    * @param Query
+    * @param
     * @return
     */
     public Page<${className}Entity> queryByPage(${className}Query ${classname}Query){
-        Integer totalCount = ${classname}Mapper.count(${classname}Query);
+        ${className}Entity ${classname}Entity = transformVO(${classname}Query);
+        Integer totalCount = ${classname}Mapper.count(${classname}Entity);
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
             lists = ${classname}Mapper.selectByPage(${classname}Query);
-            //视情况 看是否需要转为DTO 本身框架自带 过滤null得 k-v  所以不用担心将数据结构直接暴漏
-            //List<${className}DTO> reslists = transForm(lists);
         }
         return new Page(totalCount,${classname}Query.getPageNumber(),${classname}Query.getPageSize(),lists);
     }
 
     /**
     * 根据条件查询
-    * @param VO
+    * @param
     * @return
     */
     public List<${className}Entity> queryByCondition(${className}VO ${classname}VO){
-        Integer totalCount = ${classname}Mapper.count(${classname}VO);
+        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
+        Integer totalCount = ${classname}Mapper.count(${classname}Entity);
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
-            lists = ${classname}Mapper.selectByCondition(${classname}VO);
-            //视情况 看是否需要转为DTO 本身框架自带 过滤null得 k-v  所以不用担心将数据结构直接暴漏
-            //List<${className}DTO> reslists = transForm(lists);
+            lists = ${classname}Mapper.selectByCondition(${className}Entity);
         }
         return lists;
     }
 
     /**
     * 通过id查询
-    * @param id
+    * @param
     * @return
     */
     public ${className}Entity queryById(Long id){
@@ -77,34 +79,34 @@ public class ${className}ServiceImpl implements ${className}Service {
 
     /**
     * 新增
-    * @param VO
+    * @param
     * @return
     */
     public Boolean save(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = transform(${classname}VO);
+        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
         Integer res = 0;
         try {
           res = ${classname}Mapper.insert(${classname}Entity);
         } catch (Exception e) {
           logger.error("插入${className}数据失败======>{}",e);
-          throw MySQLException();
+          throw new MySQLException();
         }
         return res == 1 ? true :false;
     }
 
     /**
     * 修改
-    * @param VO
+    * @param
     * @return
     */
     public Boolean updateById(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = transform(${classname}VO);
+        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
         Integer res = 0;
         try {
           res = ${classname}Mapper.update(${classname}Entity);
         } catch (Exception e) {
           logger.error("修改${className}数据失败======>{}",e);
-          throw MySQLException();
+          throw new MySQLException();
         }
         return res == 1 ? true :false;
     }
@@ -115,24 +117,33 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @return
     */
     public Boolean deleteById(Long id){
-        ${className}Entity ${classname}Entity = transform(${classname}VO);
         Integer res = 0;
         try {
-          res = ${classname}Mapper.delete(${classname}Entity);
+          res = ${classname}Mapper.delete(id);
         } catch (Exception e) {
           logger.error("删除${className}数据失败======>{}",e);
-          throw MySQLException();
+          throw new MySQLException();
         }
         return res == 1 ? true :false;
     }
 
     /**
     * vo 转换为 entity
-    * @param VO
+    * @param
     */
-    private ${className}Entity transform(${className}VO ${classname}VO){
+    private ${className}Entity transformVO(${className}VO ${classname}VO){
         ${className}Entity ${classname}Entity = new ${className}Entity();
         BeanUtils.copyProperties(${classname}Entity,${classname}VO);
+        return ${classname}Entity;
+    }
+
+    /**
+    * query 转换为 entity
+    * @param
+    */
+    private ${className}Entity transformQuery(${className}Query ${classname}Query){
+            ${className}Entity ${classname}Entity = new ${className}Entity();
+        BeanUtils.copyProperties(${classname}Entity,${classname}Query);
         return ${classname}Entity;
     }
 }

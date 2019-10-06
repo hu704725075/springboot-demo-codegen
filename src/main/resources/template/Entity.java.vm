@@ -5,7 +5,7 @@ import lombok.*;
 import java.math.BigDecimal;
 #end
 import java.io.Serializable;
-import java.time.Date;
+import java.util.Date;
 
 /**
  * <p>
@@ -22,7 +22,6 @@ import java.time.Date;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Builder
 @NoArgsConstructor

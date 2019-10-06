@@ -63,7 +63,7 @@
   </sql>
 
   <!-- 基础带条件查询 -->
-  <select id="selectByCondition" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO">
+  <select id="selectByCondition" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity">
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
     <include refid="whereCondition" />
@@ -77,7 +77,7 @@
     WHERE
     #foreach($column in $columns)
       #if($column.lowerAttrName==$pk.lowerAttrName)
-        <if test="${pk.lowerAttrName} != null and ${pk.lowerAttrName} != ''">
+        <if test="${pk.lowerAttrName} != null">
           AND ${pk.columnName} = #{${pk.lowerAttrName}}
         </if>
       #end
@@ -85,7 +85,7 @@
   </select>
 
   <!-- 基础计数 -->
-  <select id="count" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO" >
+  <select id="count" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity" >
     SELECT COUNT(*)
     FROM ${tableName}
     <include refid="whereCondition" />
@@ -93,7 +93,7 @@
 
 
   <!-- 分页查询 -->
-  <select id="selectByPage" parameterType="com.yuantu.admin.${moduleName}.query.${className}Query" >
+  <select id="selectByPage" parameterType="com.yuantu.admin.${moduleName}.vo.${className}Query" >
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
     <include refid="whereCondition" />
@@ -118,7 +118,7 @@
   </insert>
   
   <!-- 更新 -->
-  <update id="update" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO">
+  <update id="update" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity">
     UPDATE ${tableName}
     SET
     #foreach($column in $columns)
@@ -126,11 +126,11 @@
       #else
         #if($column.attrType == 'String')
           <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} != ''">
-            AND ${column.columnName} = #{${column.lowerAttrName}}
+             ${column.columnName} = #{${column.lowerAttrName}}#if($foreach.hasNext),#end
           </if>
         #else
           <if test="${column.lowerAttrName} != null">
-            AND ${column.columnName} = #{${column.lowerAttrName}}
+             ${column.columnName} = #{${column.lowerAttrName}}#if($foreach.hasNext),#end
           </if>
         #end
       #end
