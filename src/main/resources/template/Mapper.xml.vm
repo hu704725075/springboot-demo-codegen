@@ -122,8 +122,7 @@
     UPDATE ${tableName}
     SET
     #foreach($column in $columns)
-      #if($column.lowerAttrName==$pk.lowerAttrName)
-      #else
+      #if($column.lowerAttrName!=$pk.lowerAttrName)
         #if($column.attrType == 'String')
           <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} != ''">
              ${column.columnName} = #{${column.lowerAttrName}}#if($foreach.hasNext),#end
