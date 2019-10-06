@@ -1,0 +1,123 @@
+package com.yuantu.admin.${moduleName}.service.impl;
+
+import com.yuantu.admin.${moduleName}.${className}Mapper;
+import com.yuantu.admin.${moduleName}.vo.${className}VO;
+import com.yuantu.admin.${moduleName}.entity.${className}Entity;
+import com.yuantu.admin.${moduleName}.query.${className}Query;
+import com.yuantu.admin.base.Page;
+import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ *
+ * @package: ${package}.${moduleName}.service.impl
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+
+    private static final Logger logger = LoggerFactory.getLogger(this.class);
+
+    @Resource
+    private ${className}Mapper ${classname}Mapper;
+
+    /**
+    * 分页查询
+    * @param Query
+    * @return
+    */
+    public Page<${className}Entity> queryByPage(${className}Query ${classname}Query){
+        Integer totalCount = ${classname}Mapper.count(${classname}Query);
+        List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
+        if(totalCount > 0){
+            lists = ${classname}Mapper.selectByPage(${classname}Query);
+            //视情况 看是否需要转为DTO 本身框架自带 过滤null得 k-v  所以不用担心将数据结构直接暴漏
+            //List<${className}DTO> reslists = transForm(lists);
+        }
+        return new Page(totalCount,${classname}Query.getPageNumber(),${classname}Query.getPageSize(),lists);
+    }
+
+    /**
+    * 通过id查询
+    * @param id
+    * @return
+    */
+    public ${className}Entity queryById(Long id){
+        return ${classname}Mapper.selectById(id);
+    }
+
+    /**
+    * 新增
+    * @param VO
+    * @return
+    */
+    public Boolean save(${className}VO ${classname}VO){
+        //复杂得校验规则  需要重新写checkParam
+        //checkParam(${classname}VO);
+        ${className}Entity ${classname}Entity = transform(${classname}VO);
+        Integer res = 0;
+        try {
+          res = ${classname}Mapper.insert(${classname}Entity);
+        } catch (Exception e) {
+          logger.error("插入${className}数据失败======>{}",e);
+          throw MySQLException();
+        }
+        return res == 1 ? true :false;
+    }
+
+    /**
+    * 修改
+    * @param VO
+    * @return
+    */
+    public Boolean updateById(${className}VO ${classname}VO){
+        ${className}Entity ${classname}Entity = transform(${classname}VO);
+        Integer res = 0;
+        try {
+          res = ${classname}Mapper.update(${classname}Entity);
+        } catch (Exception e) {
+          logger.error("修改${className}数据失败======>{}",e);
+          throw MySQLException();
+        }
+        return res == 1 ? true :false;
+    }
+
+    /**
+    * 物理删除
+    * @param id
+    * @return
+    */
+    public Boolean deleteById(Long id){
+        ${className}Entity ${classname}Entity = transform(${classname}VO);
+        Integer res = 0;
+        try {
+          res = ${classname}Mapper.delete(${classname}Entity);
+        } catch (Exception e) {
+          logger.error("删除${className}数据失败======>{}",e);
+          throw MySQLException();
+        }
+        return res == 1 ? true :false;
+    }
+
+    /**
+    * vo 转换为 entity
+    * @param VO
+    */
+    private void transform(${className}VO ${classname}VO){
+        ${className}Entity ${classname}Entity = new ${className}Entity();
+        BeanUtils.copyProperties(${classname}Entity,${classname}VO);
+    }
+}

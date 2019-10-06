@@ -1,0 +1,118 @@
+package com.yuantu.newcontroller;
+
+
+import com.yuantu.common.Result;
+import com.yuantu.common.ResultCodeEnums;
+import com.yuantu.admin.${moduleName}.vo.${className}VO;
+import com.yuantu.admin.${moduleName}.service.${className}Service;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import org.springframework.validation.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+@RestController
+@RequestMapping("/admin/${classname}")
+@Api(description = "${className}Controller", tags = {"${comments}"})
+public class ${className}Controller {
+
+    private static final Logger logger = LoggerFactory.getLogger(this.class);
+
+    @Autowired
+    private final ${className}Service ${classname}Service;
+
+
+
+    /**
+     * 分页查询${comments}
+     * @param page 分页对象
+     * @param ${classname} ${comments}
+     * @return R
+     */
+    @GetMapping("/queryByPage")
+    @ApiOperation(value = "分页查询${comments}", notes = "分页查询${comments}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${classname}", value = "查询条件", required = true)
+    })
+    public Result list${className}(@Validated ${className}Query ${classname}Query, BindingResult bindvo) {
+      Result result = Result.createFailResult();
+      return new Result<>(${classname}Service.queryByPage(${classname}Query);
+    }
+
+
+    /**
+     * 通过id查询${comments}
+     * @param ${pk.lowerAttrName} id
+     * @return R
+     */
+    @GetMapping("/{${pk.lowerAttrName}}")
+    @ApiOperation(value = "通过id查询${comments}", notes = "通过id查询${comments}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
+    })
+    public Result get${className}(@PathVariable("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}){
+      return new Result<>(${classname}Service.queryById(${pk.lowerAttrName}));
+    }
+
+    /**
+     * 新增${comments}
+     * @param ${classname} ${comments}
+     * @return R
+     */
+    @PostMapping("/add")
+    @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
+    @ApiImplicitParams({
+      @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
+    })
+    public Result save${className}(@RequestBody @Validated ${className} ${classname}VO,BindingResult bindvo){
+      return new Result<>(${classname}Service.save(${classname}VO));
+    }
+
+    /**
+     * 修改${comments}
+     * @param ${pk.lowerAttrName} id
+     * @param ${classname} ${comments}
+     * @return R
+     */
+    @PutMapping("/{${pk.lowerAttrName}}")
+    @ApiOperation(value = "修改${comments}", notes = "修改${comments}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
+    })
+    public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO,BindingResult bindvo){
+      return new Result<>(${classname}Service.updateById(${classname}));
+    }
+
+    /**
+     * 通过id删除${comments}
+     * @param ${pk.lowerAttrName} id
+     * @return R
+     */
+    @DeleteMapping("/{${pk.lowerAttrName}}")
+    @ApiOperation(value = "删除${comments}", notes = "删除${comments}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
+    })
+    public Result delete${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}){
+      return new Result<>(${classname}Service.deleteById(${pk.lowerAttrName}));
+    }
+
+}

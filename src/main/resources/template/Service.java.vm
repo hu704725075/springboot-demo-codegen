@@ -1,0 +1,59 @@
+package com.yuantu.admin.${moduleName}.service;
+
+import com.yuantu.admin.${moduleName}.${className}Mapper;
+import com.yuantu.admin.${moduleName}.vo.${className}VO;
+import com.yuantu.admin.${moduleName}.entity.${className}Entity;
+import com.yuantu.admin.${moduleName}.query.${className}Query;
+import com.yuantu.admin.base.Page;
+import java.util.List;
+
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ *
+ * @package:  com.yuantu.admin.${moduleName}.service;
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+public interface ${className}Service{
+  /**
+  * 分页查询
+  * @param Query
+  * @return
+  */
+  public Page<${className}Entity> queryByPage(${className}Query ${classname}Query);
+
+  /**
+  * 通过id查询
+  * @param id
+  * @return
+  */
+  public ${className}Entity queryById(Long id);
+
+  /**
+  * 新增
+  * @param VO
+  * @return
+  */
+  public ${className}Entity save(${className}VO ${classname}VO);
+
+  /**
+  * 修改
+  * @param VO
+  * @return
+  */
+  public Boolean updateById(${className}VO ${classname}VO);
+
+  /**
+  * 物理删除
+  * @param id
+  * @return
+  */
+  public Boolean deleteById(Long id);
+}

@@ -1,0 +1,22 @@
+package com.yuantu.admin.${moduleName}.mapper;
+
+import org.springframework.stereotype.Component;
+import com.yuantu.admin.${moduleName}.entity.${className}Entity;
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ *
+ * @package:  com.yuantu.admin.${moduleName}.mapper
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+@Component
+public interface ${className}Mapper extends BaseMapper<${className}Entity> {
+
+}

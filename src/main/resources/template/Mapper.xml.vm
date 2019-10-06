@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.admin.${moduleName}.mapper.${className}Mapper">
+
+  <!-- 基础返回结果集 -->
+  <resultMap id="${classname}Map" type="com.yuantu.admin.${moduleName}.${className}Entity">
+    #foreach($column in $columns)
+    #if($column.lowerAttrName==$pk.lowerAttrName)
+    <id property="${pk.lowerAttrName}" jdbcType="${pk.dataType}" column="${pk.columnName}"/>
+    #else
+    <result property="${column.lowerAttrName}" jdbcType="${column.dataType}" column="${column.columnName}"/>
+    #end
+    #end
+  </resultMap>
+
+
+  <!-- 基础列 -->
+  <sql id="baseColumn">
+    #foreach($column in $columns)
+      #if($column.lowerAttrName==$pk.lowerAttrName)
+        ${pk.columnName},
+      #else
+        ${column.columnName}#if($foreach.hasNext),#end
+      #end
+    #end
+  </sql>
+
+  <!-- 基础列不带ID -->
+  <sql id="baseColumnWithoutId">
+    #foreach($column in $columns)
+      #if($column.lowerAttrName==$pk.lowerAttrName)
+      #else
+        ${column.columnName}#if($foreach.hasNext),#end
+      #end
+    #end
+  </sql>
+
+  <!-- 基础查询条件 -->
+  <sql id="whereCondition">
+    <where>
+      #foreach($column in $columns)
+        #if($column.lowerAttrName==$pk.lowerAttrName)
+          <if test="${pk.lowerAttrName} != null">
+            AND ${pk.columnName} = #{${pk.lowerAttrName}}
+          </if>
+        #else
+          #if($column.attrType == 'String')
+            <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} != ''">
+              AND ${column.columnName} = #{${column.lowerAttrName}}
+            </if>
+          #else
+            <if test="${column.lowerAttrName} != null">
+              AND ${column.columnName} = #{${column.lowerAttrName}}
+            </if>
+          #end
+        #end
+      #end
+    </where>
+  </sql>
+
+  <!-- 基础带条件查询 -->
+  <select id="selectByCondition" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.${className}VO">
+    SELECT <include refid="baseColumn"/>
+    FROM ${tableName}
+    <include refid="whereCondition" />
+  </select>
+
+
+  <!-- 基础根据ID查询 -->
+  <select id="selectById" resultMap="${classname}Map">
+    SELECT <include refid="baseColumn"/>
+    FROM ${tableName}
+    WHERE
+    #foreach($column in $columns)
+      #if($column.lowerAttrName==$pk.lowerAttrName)
+        <if test="${pk.lowerAttrName} != null and ${pk.lowerAttrName} != ''">
+          AND ${pk.columnName} = #{${pk.lowerAttrName}}
+        </if>
+      #end
+    #end
+  </select>
+
+  <!-- 基础计数 -->
+  <select id="count" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO" >
+    SELECT COUNT(*)
+    FROM ${tableName}
+    <include refid="whereCondition" />
+  </select>
+
+
+  <!-- 分页查询 -->
+  <select id="selectByPage" parameterType="com.yuantu.admin.${moduleName}.query.${className}Query" >
+    SELECT <include refid="baseColumn"/>
+    FROM ${tableName}
+    <include refid="whereCondition" />
+    LIMIT #{start},#{offset}
+  </select>
+
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO ${tableName}
+    (
+    <include refid="baseColumnWithoutId"/>
+    )
+    VALUES
+    (
+    #foreach($column in $columns)
+      #if($column.lowerAttrName==$pk.lowerAttrName)
+      #else
+        #{${column.lowerAttrName}}#if($foreach.hasNext),#end
+      #end
+    #end
+    )
+  </insert>
+  
+  <!-- 更新 -->
+  <update id="update" parameterType="com.yuantu.admin.${moduleName}.vo.${className}VO">
+    UPDATE ${tableName}
+    SET
+    #foreach($column in $columns)
+      #if($column.lowerAttrName==$pk.lowerAttrName)
+      #else
+        #if($column.attrType == 'String')
+          <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} != ''">
+            AND ${column.columnName} = #{${column.lowerAttrName}}
+          </if>
+        #else
+          <if test="${column.lowerAttrName} != null">
+            AND ${column.columnName} = #{${column.lowerAttrName}}
+          </if>
+        #end
+      #end
+    #end
+    WHERE id = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE FROM ${tableName} WHERE id = #{id}
+  </delete>
+
+</mapper>

@@ -1,0 +1,44 @@
+package com.yuantu.admin.${moduleName}.vo;
+
+import lombok.*;
+  #if(${hasBigDecimal})
+  import javax.validation.constraints.NotEmpty;
+  import javax.validation.constraints.NotNull;
+  import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.time.Date;
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ *
+ * @package:  com.yuantu.admin.${moduleName}.vo
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${className}VO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+
+      /**
+       * $column.comments
+       */
+      @NotNull
+      @NotEmpty
+      private $column.attrType $column.lowerAttrName;
+    #end
+
+}

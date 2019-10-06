@@ -1,0 +1,39 @@
+package com.yuantu.admin.${moduleName}.entity;
+
+import lombok.*;
+  #if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.time.Date;
+
+/**
+ * <p>
+ * ${comments}
+ * </p>
+ *
+ * @package:  com.yuantu.admin.${moduleName}.entity
+ * @description: ${comments}
+ * @author: ${author}
+ * @date: Created in ${datetime}
+ * @copyright: Copyright (c) ${year}
+ * @version: V1.0
+ * @modified: ${author}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${className}Entity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+  #foreach ($column in $columns)
+    /**
+     * $column.comments
+     */
+    private $column.attrType $column.lowerAttrName;
+  #end
+
+}
