@@ -4,6 +4,8 @@ package com.yuantu.newcontroller;
 import com.yuantu.common.Result;
 import com.yuantu.common.ResultCodeEnums;
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
+import com.yuantu.admin.${moduleName}.vo.${className}Query;
+import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.service.${className}Service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.validation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -37,7 +41,7 @@ public class ${className}Controller {
     private static final Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
     @Autowired
-    private final ${className}Service ${classname}Service;
+    private  ${className}Service ${classname}Service;
 
 
 
@@ -53,8 +57,10 @@ public class ${className}Controller {
             @ApiImplicitParam(name = "${classname}", value = "查询条件", required = true)
     })
     public Result list${className}(@Validated ${className}Query ${classname}Query) {
-      Result result = Result.createFailResult();
-      return new Result<>(${classname}Service.queryByPage(${classname}Query);
+        Result result = Result.createFailResult();
+        Page<PermissionEntity> permissionEntityPage = ${classname}Service.queryByPage(${classname}Query);
+        result.setData(permissionEntityPage);
+        return result;
     }
 
 
@@ -73,7 +79,9 @@ public class ${className}Controller {
         #end
     })
     public Result save${className}(@RequestBody @Validated({InsertInterface.class}) ${className}VO ${classname}VO){
-        return new Result<>(${classname}Service.save(${classname}VO));
+        Result result = Result.createFailResult();
+        result.setData(${classname}Service.save(${classname}VO));
+        return result;
     }
 
     /**
@@ -87,7 +95,9 @@ public class ${className}Controller {
             @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
     })
     public Result get${className}(@PathVariable("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}){
-      return new Result<>(${classname}Service.queryById(${pk.lowerAttrName}));
+        Result result = Result.createFailResult();
+        result.setData(${classname}Service.queryById(${pk.lowerAttrName}));
+        return result;
     }
 
     /**
@@ -102,7 +112,9 @@ public class ${className}Controller {
             @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
     })
     public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO){
-      return new Result<>(${classname}Service.updateById(${classname}));
+        Result result = Result.createFailResult();
+        result.setData(${classname}Service.updateById(${classname}));
+        return result;
     }
 
     /**
@@ -116,7 +128,9 @@ public class ${className}Controller {
             @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
     })
     public Result delete${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}){
-      return new Result<>(${classname}Service.deleteById(${pk.lowerAttrName}));
+        Result result = Result.createFailResult();
+        result.setData(${classname}Service.deleteById(${pk.lowerAttrName}));
+        return result;
     }
 
 }
