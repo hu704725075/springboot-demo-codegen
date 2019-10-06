@@ -3,6 +3,7 @@ package com.yuantu.admin.${moduleName}.mapper;
 import org.springframework.stereotype.Component;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.base.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import com.yuantu.admin.base.mapper.BaseMapper;
  * @version: V1.0
  * @modified: ${author}
  */
-@Component
+@Repository("${classname}Mapper")
 public interface ${className}Mapper extends BaseMapper<${className}Entity> {
 
 }

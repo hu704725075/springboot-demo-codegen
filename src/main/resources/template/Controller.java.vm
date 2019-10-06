@@ -51,12 +51,12 @@ public class ${className}Controller {
      * @param ${classname}Query
      * @return Result
      */
-    @GetMapping("/queryByPage")
+    @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询${comments}", notes = "分页查询${comments}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "${classname}", value = "查询条件", required = true)
     })
-    public Result list${className}(@Validated ${className}Query ${classname}Query) {
+    public Result list${className}(@RequestBody @Validated{InsertInterface.class} ${className}Query ${classname}Query) {
         Result result = Result.createFailResult();
         Page<PermissionEntity> permissionEntityPage = ${classname}Service.queryByPage(${classname}Query);
         result.setData(permissionEntityPage);

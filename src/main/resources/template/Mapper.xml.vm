@@ -74,7 +74,7 @@
   <select id="selectById" resultMap="${classname}Map">
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
-    WHERE
+    WHERE 1 = 1
     #foreach($column in $columns)
       #if($column.lowerAttrName==$pk.lowerAttrName)
         <if test="${pk.lowerAttrName} != null">
@@ -85,15 +85,15 @@
   </select>
 
   <!-- 基础计数 -->
-  <select id="count" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity" >
-    SELECT COUNT(*)
+  <select id="count" resultType="java.lang.Integer" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity" >
+    SELECT COUNT(id)
     FROM ${tableName}
     <include refid="whereCondition" />
   </select>
 
 
   <!-- 分页查询 -->
-  <select id="selectByPage" parameterType="com.yuantu.admin.${moduleName}.vo.${className}Query" >
+  <select id="selectByPage" resultMap="${classname}Map" parameterType="com.yuantu.admin.${moduleName}.vo.${className}Query" >
     SELECT <include refid="baseColumn"/>
     FROM ${tableName}
     <include refid="whereCondition" />
@@ -120,7 +120,7 @@
   <!-- 更新 -->
   <update id="update" parameterType="com.yuantu.admin.${moduleName}.entity.${className}Entity">
     UPDATE ${tableName}
-    SET
+    <trim prefix="SET" suffixOverrides=",">
     #foreach($column in $columns)
       #if($column.lowerAttrName!=$pk.lowerAttrName)
         #if($column.attrType == 'String')
@@ -134,6 +134,7 @@
         #end
       #end
     #end
+    </trim>
     WHERE id = #{id}
   </update>
 

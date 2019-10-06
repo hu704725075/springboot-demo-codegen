@@ -30,7 +30,7 @@ import javax.annotation.Resource;
  * @version: V1.0
  * @modified: ${author}
  */
-@Service
+@Service("${classname}Service")
 public class ${className}ServiceImpl implements ${className}Service {
 
     private static final Logger logger = LoggerFactory.getLogger(${className}ServiceImpl.class);
@@ -133,7 +133,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     */
     private ${className}Entity transformVO(${className}VO ${classname}VO){
         ${className}Entity ${classname}Entity = new ${className}Entity();
-        BeanUtils.copyProperties(${classname}Entity,${classname}VO);
+        BeanUtils.copyProperties(${classname}VO, ${classname}Entity);
         return ${classname}Entity;
     }
 
@@ -143,7 +143,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     */
     private ${className}Entity transformQuery(${className}Query ${classname}Query){
             ${className}Entity ${classname}Entity = new ${className}Entity();
-        BeanUtils.copyProperties(${classname}Entity,${classname}Query);
+        BeanUtils.copyProperties(${classname}Query,${classname}Entity);
         return ${classname}Entity;
     }
 }
