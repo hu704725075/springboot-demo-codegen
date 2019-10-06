@@ -6,9 +6,9 @@
   <resultMap id="${classname}Map" type="com.yuantu.admin.${moduleName}.entity.${className}Entity">
     #foreach($column in $columns)
     #if($column.lowerAttrName==$pk.lowerAttrName)
-    <id property="${pk.lowerAttrName}" jdbcType="${pk.dataType}" column="${pk.columnName}"/>
+    <id property="${pk.lowerAttrName}" column="${pk.columnName}"/>
     #else
-    <result property="${column.lowerAttrName}" jdbcType="${column.dataType}" column="${column.columnName}"/>
+    <result property="${column.lowerAttrName}" column="${column.columnName}"/>
     #end
     #end
   </resultMap>
