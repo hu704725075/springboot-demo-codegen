@@ -14,6 +14,7 @@ import com.yuantu.admin.base.group.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import org.springframework.beans.BeanUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * <p>

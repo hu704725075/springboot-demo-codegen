@@ -7,7 +7,6 @@ import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.vo.${className}Query;
 import com.yuantu.admin.base.query.Page;
 import com.yuantu.admin.base.exception.*;
-import org.springframework.beans.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +16,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import java.util.stream.*;
 
 import javax.annotation.Resource;
 
@@ -51,9 +51,10 @@ public class ${className}ServiceImpl implements ${className}Service {
     public Page<${className}VO> queryByPage(${className}Query ${classname}Query){
         Integer totalCount = ${classname}Mapper.count(${classname}Query.transformEntity());
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
+        List<${className}VO> listVO = new ArrayList<${className}VO>(totalCount);
         if(totalCount > 0){
             lists = ${classname}Mapper.selectByPage(${classname}Query);
-            List<${className}VO> listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
+            listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
         }
         return new Page(totalCount,${classname}Query.getPageNumber(),${classname}Query.getPageSize(),listVO);
     }
@@ -67,9 +68,10 @@ public class ${className}ServiceImpl implements ${className}Service {
     public List<${className}VO> queryByCondition(${className}VO ${classname}VO){
         Integer totalCount = ${classname}Mapper.count(${classname}VO.transformEntity());
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
+        List<${className}VO> listVO = new ArrayList<${className}VO>(totalCount);
         if(totalCount > 0){
             lists = ${classname}Mapper.selectByCondition(${classname}VO);
-            List<${className}VO> listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
+            listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
         }
         return listVO;
     }

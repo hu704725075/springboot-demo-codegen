@@ -62,9 +62,9 @@ public class ${className}Controller {
             #end
         #end
     })
-    public Result list${className}(@RequestBody @Validated{QueryInterface.class} ${className}Query ${classname}Query) {
+    public Result list${className}(@RequestBody @Validated({QueryInterface.class}) ${className}Query ${classname}Query) {
         Result result = Result.createFailResult();
-        Page<PermissionEntity> permissionEntityPage = ${classname}Service.queryByPage(${classname}Query);
+        Page<PermissionVO> permissionEntityPage = ${classname}Service.queryByPage(${classname}Query);
         result.setData(permissionEntityPage);
         return result;
     }
