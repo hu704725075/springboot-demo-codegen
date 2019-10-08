@@ -26,21 +26,21 @@ public interface ${className}Service{
   * @param ${classname}Query
   * @return
   */
-  public Page<${className}Entity> queryByPage(${className}Query ${classname}Query);
+  public Page<${className}VO> queryByPage(${className}Query ${classname}Query);
 
   /**
   * 根据条件查询
   * @param ${classname}VO
   * @return
   */
-  public List<${className}Entity> queryByCondition(${className}VO ${classname}VO);
+  public List<${className}VO> queryByCondition(${className}VO ${classname}VO);
 
   /**
   * 通过id查询
   * @param id
   * @return
   */
-  public ${className}Entity queryById(Long id);
+  public ${className}VO queryById(Long id);
 
   /**
   * 新增

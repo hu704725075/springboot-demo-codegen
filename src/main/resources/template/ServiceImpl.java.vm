@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,7 +38,8 @@ public class ${className}ServiceImpl implements ${className}Service {
 
     private static final Logger logger = LoggerFactory.getLogger(${className}ServiceImpl.class);
 
-    @Resource
+    @Autowired
+    @Qualifier("${classname}Mapper")
     private ${className}Mapper ${classname}Mapper;
 
     /**
@@ -43,14 +47,15 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param
     * @return
     */
-    public Page<${className}Entity> queryByPage(${className}Query ${classname}Query){
-        ${className}Entity ${classname}Entity = transformQuery(${classname}Query);
-        Integer totalCount = ${classname}Mapper.count(${classname}Entity);
+    @Override
+    public Page<${className}VO> queryByPage(${className}Query ${classname}Query){
+        Integer totalCount = ${classname}Mapper.count(${classname}Query.transformEntity());
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
             lists = ${classname}Mapper.selectByPage(${classname}Query);
+            List<${className}VO> listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
         }
-        return new Page(totalCount,${classname}Query.getPageNumber(),${classname}Query.getPageSize(),lists);
+        return new Page(totalCount,${classname}Query.getPageNumber(),${classname}Query.getPageSize(),listVO);
     }
 
     /**
@@ -58,14 +63,15 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param
     * @return
     */
-    public List<${className}Entity> queryByCondition(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
-        Integer totalCount = ${classname}Mapper.count(${classname}Entity);
+    @Override
+    public List<${className}VO> queryByCondition(${className}VO ${classname}VO){
+        Integer totalCount = ${classname}Mapper.count(${classname}VO.transformEntity());
         List<${className}Entity> lists = new ArrayList<${className}Entity>(totalCount);
         if(totalCount > 0){
-            lists = ${classname}Mapper.selectByCondition(${classname}Entity);
+            lists = ${classname}Mapper.selectByCondition(${classname}VO);
+            List<${className}VO> listVO = lists.stream().map(m -> m.transformVO()).collect(Collectors.toList());
         }
-        return lists;
+        return listVO;
     }
 
     /**
@@ -73,8 +79,9 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param
     * @return
     */
-    public ${className}Entity queryById(Long id){
-        return ${classname}Mapper.selectById(id);
+    @Override
+    public ${className}VO queryById(Long id){
+        return ${classname}Mapper.selectById(id).transformVO();
     }
 
     /**
@@ -82,8 +89,9 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param
     * @return
     */
+    @Override
     public Boolean save(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
+        ${className}Entity ${classname}Entity = ${classname}VO.transformEntity();
         Integer res = 0;
         try {
           res = ${classname}Mapper.insert(${classname}Entity);
@@ -99,11 +107,11 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param
     * @return
     */
+    @Override
     public Boolean updateById(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = transformVO(${classname}VO);
         Integer res = 0;
         try {
-          res = ${classname}Mapper.update(${classname}Entity);
+          res = ${classname}Mapper.update(${classname}VO);
         } catch (Exception e) {
           logger.error("修改${className}数据失败======>{}",e);
           throw new MySQLException();
@@ -116,6 +124,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     * @param id
     * @return
     */
+    @Override
     public Boolean deleteById(Long id){
         Integer res = 0;
         try {
@@ -127,23 +136,4 @@ public class ${className}ServiceImpl implements ${className}Service {
         return res == 1 ? true :false;
     }
 
-    /**
-    * vo 转换为 entity
-    * @param
-    */
-    private ${className}Entity transformVO(${className}VO ${classname}VO){
-        ${className}Entity ${classname}Entity = new ${className}Entity();
-        BeanUtils.copyProperties(${classname}VO, ${classname}Entity);
-        return ${classname}Entity;
-    }
-
-    /**
-    * query 转换为 entity
-    * @param
-    */
-    private ${className}Entity transformQuery(${className}Query ${classname}Query){
-            ${className}Entity ${classname}Entity = new ${className}Entity();
-        BeanUtils.copyProperties(${classname}Query,${classname}Entity);
-        return ${classname}Entity;
-    }
 }

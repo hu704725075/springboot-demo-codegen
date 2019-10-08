@@ -12,6 +12,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 import org.hibernate.validator.constraints.*;
+import com.yuantu.admin.${moduleName}.entity.${className}Entity;
+import org.springframework.beans.BeanUtils;
 
 
 /**
@@ -38,17 +40,28 @@ public class ${className}Query extends Page implements Serializable {
     private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)
-      /**
-       * $column.comments
-       */
-      #if($column.lowerAttrName!=$pk.lowerAttrName)
-      @NotNull(message = "$column.comments不能为空",groups = {InsertInterface.class})
-      #end
-      #if($column.attrType == 'String')
-      @NotEmpty(message = "$column.comments不能为空字符",groups = {InsertInterface.class})
-      #end
-      @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = true)
-      private $column.attrType $column.lowerAttrName;
+        /**
+         * $column.comments
+         */
+    #if($column.lowerAttrName!=$pk.lowerAttrName)
+    @NotNull(message = "$column.comments不能为空",groups = {InsertInterface.class})
+    #else
+    @NotNull(message = "$column.comments不能为空",groups = {UpdateInterface.class})
+    #end
+    #if($column.attrType == 'String')
+    @NotEmpty(message = "$column.comments不能为空字符",groups = {InsertInterface.class})
+    #end
+    #if($column.attrType == 'Date')
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    #end
+    @ApiModelProperty(value = "$column.comments",name = "$column.lowerAttrName",dataType = "$column.attrType",required = true)
+    private $column.attrType $column.lowerAttrName;
     #end
 
+    public ${className}Entity transformEntity() {
+            ${className}Entity ${classname}Entity = new ${className}Entity();
+        BeanUtils.copyProperties(this, ${classname}Entity);
+        return ${classname}Entity;
+    }
 }

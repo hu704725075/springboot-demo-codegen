@@ -7,8 +7,9 @@ import com.yuantu.admin.${moduleName}.vo.${className}Query;
 import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.${className}Service;
 import com.yuantu.admin.base.query.Page;
-import com.yuantu.admin.base.group.InsertInterface;
+import com.yuantu.admin.base.group.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.Api;
@@ -42,6 +43,7 @@ public class ${className}Controller {
     private static final Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
     @Autowired
+    @Qualifier("${classname}Service")
     private  ${className}Service ${classname}Service;
 
 
@@ -54,9 +56,13 @@ public class ${className}Controller {
     @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询${comments}", notes = "分页查询${comments}")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "${classname}", value = "查询条件", required = true)
+        #foreach ($column in $columns)
+            #if($column.lowerAttrName != $pk.lowerAttrName)
+                    @ApiImplicitParam(name = "$column.lowerAttrName", value = "$column.comments", required = true)#if($foreach.hasNext),#end
+            #end
+        #end
     })
-    public Result list${className}(@RequestBody @Validated{InsertInterface.class} ${className}Query ${classname}Query) {
+    public Result list${className}(@RequestBody @Validated{QueryInterface.class} ${className}Query ${classname}Query) {
         Result result = Result.createFailResult();
         Page<PermissionEntity> permissionEntityPage = ${classname}Service.queryByPage(${classname}Query);
         result.setData(permissionEntityPage);
@@ -110,7 +116,7 @@ public class ${className}Controller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "${pk.lowerAttrName}", value = "主键id", required = true)
     })
-    public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated ${className}VO ${classname}VO){
+    public Result update${className}(@PathVariable ${pk.attrType} ${pk.lowerAttrName}, @RequestBody @Validated({UpdateInterface.class}) ${className}VO ${classname}VO){
         Result result = Result.createFailResult();
         result.setData(${classname}Service.updateById(${classname}VO));
         return result;

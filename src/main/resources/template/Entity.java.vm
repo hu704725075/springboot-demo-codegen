@@ -1,18 +1,21 @@
 package com.yuantu.admin.${moduleName}.entity;
 
 import lombok.*;
-  #if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
+    #if(${hasBigDecimal})
+    import java.math.BigDecimal;
+    #end
 import java.io.Serializable;
 import java.util.Date;
+
+import com.yuantu.admin.${moduleName}.vo.${className}VO;
+import org.springframework.beans.BeanUtils;
 
 /**
  * <p>
  * ${comments}
  * </p>
  *
- * @package:  com.yuantu.admin.${moduleName}.entity
+ * @package: com.yuantu.admin.${moduleName}.entity
  * @description: ${comments}
  * @author: ${author}
  * @date: Created in ${datetime}
@@ -29,11 +32,17 @@ import java.util.Date;
 public class ${className}Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-  #foreach ($column in $columns)
+    #foreach ($column in $columns)
     /**
      * $column.comments
      */
     private $column.attrType $column.lowerAttrName;
-  #end
+    #end
+
+    public ${className}VO transformVO() {
+            ${className}VO ${classname}VO = new ${className}VO();
+        BeanUtils.copyProperties(this, ${classname}VO);
+        return ${classname}VO;
+    }
 
 }
