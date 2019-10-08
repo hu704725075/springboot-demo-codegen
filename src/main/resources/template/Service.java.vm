@@ -1,7 +1,6 @@
 package com.yuantu.admin.${moduleName}.service;
 
 import com.yuantu.admin.${moduleName}.vo.${className}VO;
-import com.yuantu.admin.${moduleName}.entity.${className}Entity;
 import com.yuantu.admin.${moduleName}.vo.${className}Query;
 import com.yuantu.admin.base.query.Page;
 import java.util.List;
